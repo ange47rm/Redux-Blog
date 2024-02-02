@@ -85,7 +85,7 @@ const postsSlice = createSlice({
                     return post;
                 });
 
-                // // Use the `concat` method to add the new posts to our existing posts array
+                // Use the `concat` method to add the new posts to our existing posts array
                 state.posts = state.posts.concat(loadedPosts)
             })
             .addCase(fetchPosts.rejected, (state, action) => {
@@ -93,18 +93,6 @@ const postsSlice = createSlice({
                 state.error = action.error.message
             })
             .addCase(addNewPost.fulfilled, (state, action) => {
-                // // Fix for API post IDs:
-                // // Creating sortedPosts & assigning the id 
-                // // would be not be needed if the fake API 
-                // // returned accurate new post IDs
-                // const sortedPosts = state.posts.sort((a, b) => {
-                //     if (a.id > b.id) return 1
-                //     if (a.id < b.id) return -1
-                //     return 0
-                // })
-                // action.payload.id = sortedPosts[sortedPosts.length - 1].id + 1;
-                // // End fix for fake API post IDs 
-
                 action.payload.userId = Number(action.payload.userId)
 
                 // Add date and reactions for our posts
@@ -125,6 +113,7 @@ const postsSlice = createSlice({
 export const selectAllPosts = (state) => state.posts.posts;
 export const getPostsStatus = (state) => state.posts.status;
 export const getPostsError = (state) => state.posts.error;
+export const selectPostById = (state, postId) => state.posts.posts.find(post => post.id === postId)
 
 // EXPORTS
 export const { postAdded, reactionAdded } = postsSlice.actions
