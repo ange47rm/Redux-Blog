@@ -25,6 +25,16 @@ export const addNewPost = createAsyncThunk('posts/addNewPost', async (newPost) =
     }
 })
 
+export const updatePost = createAsyncThunk('posts/updatePost', async (initialPost) => {
+    const { id } = initialPost;
+    try {
+        const response = await axios.put(`${POSTS_URL}/${id}`, initialPost)
+        return response.data
+    } catch (err) {
+        return err.message;
+    }
+})
+
 // SLICE
 // Note: we can modify the state directly within create slice without needing to make a copy of it because createSlice uses ImmerJS behind the scenes
 const postsSlice = createSlice({
@@ -105,6 +115,17 @@ const postsSlice = createSlice({
                     coffee: 0
                 }
                 state.posts.push(action.payload)
+            })
+            .addCase(updatePost.fulfilled, (state, action) => {
+                if (!action.payload?.id) {
+                    console.log('Update could not complete')
+                    console.log(action.payload)
+                    return;
+                }
+                const { id } = action.payload;
+                action.payload.date = new Date().toISOString();
+                const posts = state.posts.filter(post => post.id !== id);
+                state.posts = [...posts, action.payload];
             })
     }
 })
