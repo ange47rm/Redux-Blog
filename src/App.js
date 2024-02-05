@@ -1,9 +1,9 @@
-import PostsList from "./features/posts/PostsList";
-import AddPostForm from "./features/posts/AddPostForm";
-import SinglePostPage from "./features/posts/SinglePostPage";
+import { Route, Routes } from 'react-router-dom';
 import Layout from "./components/Layout";
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import AddPostForm from "./features/posts/AddPostForm";
 import EditPostForm from "./features/posts/EditPostForm";
+import PostsList from "./features/posts/PostsList";
+import SinglePostPage from "./features/posts/SinglePostPage";
 
 function App() {
   return (
